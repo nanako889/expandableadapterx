@@ -39,7 +39,6 @@ class FirstFragment : Fragment() {
 
         val adapter = TestAdapter()
         val hc = adapter.headerCount
-
     }
 
     override fun onDestroyView() {

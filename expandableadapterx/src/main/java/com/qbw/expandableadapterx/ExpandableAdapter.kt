@@ -238,17 +238,16 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
         headerCount -= removeCount
     }
 
-    val headers: List<Any>?
-        get() {
-            if (headerCount <= 0 || itemCount <= 0) {
-                L.GL.w("No header items")
-                return null
-            }
-            return ArrayList(mList.subList(0, headerCount))
+    fun getHeaders(): List<Any>? {
+        if (headerCount <= 0 || itemCount <= 0) {
+            L.GL.w("No header items")
+            return null
         }
+        return ArrayList(mList.subList(0, headerCount))
+    }
 
     fun getHeaders(viewType: Int): List<Any>? {
-        val total = headers
+        val total = getHeaders()
         var match: MutableList<Any>? = null
         val size = total?.size ?: 0
         if (size > 0) {
@@ -459,17 +458,16 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
         notifyItemRangeRemoved(itemBeginPosition, removeCount)
     }
 
-    val childs: List<Any>?
-        get() {
-            if (childCount <= 0 || itemCount <= 0) {
-                L.GL.w("No child items")
-                return null
-            }
-            return ArrayList(mList.subList(headerCount, headerCount + childCount))
+    fun getChilds(): List<Any>? {
+        if (childCount <= 0 || itemCount <= 0) {
+            L.GL.w("No child items")
+            return null
         }
+        return ArrayList(mList.subList(headerCount, headerCount + childCount))
+    }
 
     fun getChilds(viewType: Int): List<Any>? {
-        val total = childs
+        val total = getChilds()
         var match: MutableList<Any>? = null
         val size = total?.size ?: 0
         if (size > 0) {
@@ -1216,18 +1214,17 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
         notifyItemRangeRemoved(footerItemBeginPosition, removeCount)
     }
 
-    val footers: List<Any>?
-        get() {
-            val footerItemBeginPosition = convertFooterPosition(0)
-            return if (footerItemBeginPosition == -1) {
-                null
-            } else ArrayList(
-                mList.subList(
-                    footerItemBeginPosition,
-                    footerItemBeginPosition + footerCount
-                )
+    fun getFooters(): List<Any>? {
+        val footerItemBeginPosition = convertFooterPosition(0)
+        return if (footerItemBeginPosition == -1) {
+            null
+        } else ArrayList(
+            mList.subList(
+                footerItemBeginPosition,
+                footerItemBeginPosition + footerCount
             )
-        }
+        )
+    }
 
     fun getFooter(footerPosition: Int): Any? {
         val itemPosition = convertFooterPosition(footerPosition)
