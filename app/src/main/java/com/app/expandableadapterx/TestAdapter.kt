@@ -15,4 +15,12 @@ class TestAdapter : ExpandableAdapter() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         TODO("Not yet implemented")
     }
+
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
+
+    override fun getItemViewType(t: Any?): Int {
+        return super.getItemViewType(t)
+    }
 }

@@ -29,7 +29,7 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
         return if (vt == -1) super.getItemViewType(position) else vt
     }
 
-    fun getItemViewType(t: Any?): Int {
+    open fun getItemViewType(t: Any?): Int {
         return -1
     }
 
