@@ -620,6 +620,16 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
         }
     }
 
+    fun clearGroup(beginIndex: Int) {
+        if (beginIndex >= groupCount) {
+            L.GL.w("clearGroup,beginIndex[%d] >= groupCount[%d]", beginIndex, groupCount)
+            return
+        }
+        for (i in beginIndex until groupCount) {
+            removeGroup(beginIndex)
+        }
+    }
+
     fun removeGroup(groupPosition: Int) {
         val itemPosition = convertGroupPosition(groupPosition)
         if (itemPosition == -1) {
@@ -1075,23 +1085,6 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
 
     fun setFooter(newFooterList: List<Any>) {
         setFooter(0, if (footerCount > 0) footerCount - 1 else 0, newFooterList)
-        /*int newDataSize = newFooterList == null ? 0 : newFooterList.size();
-        if (newDataSize <= 0) {
-            clearFooter();
-        } else if (mFooterCount <= 0) {
-            addFooter(newFooterList);
-        } else {
-            for (int i = 0; i < mFooterCount && i < newDataSize; i++) {
-                if (!isSameData(getFooter(i), newFooterList.get(i))) {
-                    updateFooter(i, newFooterList.get(i));
-                }
-            }
-            if (mFooterCount > newDataSize) {
-                clearFooter(newDataSize);
-            } else if (mFooterCount < newDataSize) {
-                addFooter(newFooterList.subList(mFooterCount, newDataSize));
-            }
-        }*/
     }
 
     fun setFooter(beginIndex: Int, endIndex: Int, newFooterList: List<Any>) {
