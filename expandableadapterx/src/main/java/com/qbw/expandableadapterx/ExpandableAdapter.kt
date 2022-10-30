@@ -21,8 +21,6 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
         private set
     var footerCount = 0
         private set
-    var bottomCount = 0
-        private set
 
     override fun getItemViewType(position: Int): Int {
         val vt = getItemViewType(mList[position])
@@ -105,7 +103,6 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
             groupChildCounts!!.clear()
         }
         footerCount = 0
-        bottomCount = 0
         notifyDataSetChanged()
     }
 
@@ -1098,7 +1095,7 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
             return
         }
         val pendingSetCount = endIndex - beginIndex + 1
-        val newDataSize = newFooterList?.size ?: 0
+        val newDataSize = newFooterList.size
         if (newDataSize <= 0) {
             removeFooter(beginIndex, pendingSetCount)
         } else if (footerCount <= beginIndex) {
@@ -1106,7 +1103,7 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
         } else {
             var i = 0
             while (i < pendingSetCount && i < newDataSize) {
-                if (!isSameData(getFooter(i + beginIndex), newFooterList!![i])) {
+                if (!isSameData(getFooter(i + beginIndex), newFooterList[i])) {
                     updateFooter(i + beginIndex, newFooterList[i])
                 }
                 i++
@@ -1115,7 +1112,7 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
                 clearFooter(newDataSize)
             } else if (pendingSetCount < newDataSize) {
                 addFooter(
-                    endIndex + 1, newFooterList!!.subList(
+                    endIndex + 1, newFooterList.subList(
                         pendingSetCount,
                         newDataSize
                     )
@@ -1288,41 +1285,6 @@ abstract class ExpandableAdapter : BaseExpandableAdapter() {
             -1
         } else headerCount + childCount + groupAndGroupChildCount + footerPosition
     }
-
-    fun removeBottom() {
-        if (bottomCount == 0) {
-            L.GL.w("no bottom to remove!!!")
-            return
-        }
-        val size = mList.size
-        mList.removeAt(size - 1)
-        notifyItemRemoved(size - 1)
-        bottomCount = 0
-    }
-
-    var bottom: Any?
-        get() {
-            if (bottomCount == 0) {
-                L.GL.w("no bottom data!!!")
-                return null
-            }
-            return mList[mList.size - 1]
-        }
-        set(bottom) {
-            if (bottom == null) {
-                L.GL.w("bottom is null!!!")
-                return
-            }
-            val size = mList.size
-            if (bottomCount == 0) {
-                bottomCount = 1
-                mList.add(bottom)
-                notifyItemInserted(size)
-            } else if (bottomCount == 1) {
-                mList[size - 1] = bottom
-                notifyItemChanged(size - 1)
-            }
-        }
 
     override fun getItemCount(): Int {
         return mList.size
